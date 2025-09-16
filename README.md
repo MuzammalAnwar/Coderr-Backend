@@ -20,7 +20,6 @@ Follow these steps to set up and run the backend locally.
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/MuzammalAnwar/Coderr-Backend.git
-cd Coderr-Backend
 ```
 ```bash
 cd Coderr-Backend
