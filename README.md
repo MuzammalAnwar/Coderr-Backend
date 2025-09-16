@@ -1,4 +1,4 @@
-# Django Backend
+# Coderr – Backend (Django + DRF)
 
 This repository contains the backend implementation of the project **Coderr**, built with **Django** and **Django REST Framework (DRF)**.
 
