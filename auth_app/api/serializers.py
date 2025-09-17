@@ -24,13 +24,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         if pw != repeated_pw:
             raise serializers.ValidationError("Passwords do not match")
         names = username.strip().split(" ", 1)
-        first_name = names[0]
-        last_name = names[1] if len(names) > 1 else ""
         username = username.replace(" ", "_")
         account = User(
             username=username,
-            first_name=first_name,
-            last_name=last_name,
             email=self.validated_data['email'],
             type=self.validated_data['type']
         )
