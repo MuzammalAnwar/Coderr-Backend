@@ -11,8 +11,13 @@ class RegistrationView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        allowed_fields = {"username", "email",
-                          "password", "repeated_password", "type"}
+        allowed_fields = {
+            'username',
+            'email',
+            'password',
+            'repeated_password',
+            'type'
+        }
         received_fields = set(request.data.keys())
         extra_fields = received_fields - allowed_fields
         if extra_fields:
