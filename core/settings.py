@@ -135,7 +135,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication'
-    ]
+    ],
+    "COERCE_DECIMAL_TO_STRING": False,
 }
 
 AUTH_USER_MODEL = "auth_app.User"
