@@ -19,12 +19,10 @@ class Order(models.Model):
         COMPLETED = 'completed', 'completed'
         CANCELLED = 'cancelled', 'cancelled'
 
-    # Who ordered vs. who fulfills
     customer_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='orders_as_customer',
-        # filters choices in admin/forms
         limit_choices_to={"type": "customer"},
     )
 

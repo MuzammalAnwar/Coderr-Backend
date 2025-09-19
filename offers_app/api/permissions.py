@@ -14,12 +14,11 @@ class IsBusinessForWrite(BasePermission):
 class IsOfferOwnerOrReadOnly(BasePermission):
     """
     Only the business users who are the owner of the offer can update and delete it.
-    Anyone can read.
+    Anyone can read though.
     """
 
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return True
-        # must be authenticated and the owner of the offer
         return request.user.is_authenticated and obj.business_user_id == request.user.id
 

@@ -3,18 +3,18 @@ from .views import OfferListCreateView, OfferDetailView, OfferDetailRetrieveView
 
 urlpatterns = [
     path(
-        "offers/",
+        'offers/',
         OfferListCreateView.as_view(),
-        name="offer-list-create"
+        name='offer-list-create'
     ),
     path(
-        "offers/<int:pk>/",
+        'offers/<int:pk>/',
         OfferDetailView.as_view(),
-        name="offer-detail"
+        name='offer-detail'
     ),
     path(
-        "offerdetails/<int:pk>/",
+        'offerdetails/<int:pk>/',
         OfferDetailRetrieveView.as_view(),
-        name="offerdetail-detail"
+        name='offerdetail-detail'
     ),
 ]
