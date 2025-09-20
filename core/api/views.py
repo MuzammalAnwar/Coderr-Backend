@@ -17,6 +17,9 @@ class BaseInfoView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
+        """
+        calculates total reviews, average rating, number of business profiles, and total offers, then returns them as JSON.
+        """
         review_count = Review.objects.count()
         avg_val = Review.objects.aggregate(avg=Avg('rating'))['avg']
         average_rating = round(avg_val or 0.0, 1)

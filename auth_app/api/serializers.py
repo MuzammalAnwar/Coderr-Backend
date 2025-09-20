@@ -6,6 +6,9 @@ User = get_user_model()
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    """
+    serializer for creating a new user.
+    """
     repeated_password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -13,6 +16,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'password', 'repeated_password', 'type']
 
     def validate_email(self, value):
+        """checks if the email is already registered."""
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError('Email already exists')
         return value
@@ -36,7 +40,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(AuthTokenSerializer):
+    """ 
+    sets user fields, saves account
+    """
+
     def validate(self, attrs):
+        """checks if username exists, authenticates with password, attaches user to attributes."""
         username = attrs.get('username')
         password = attrs.get('password')
         try:

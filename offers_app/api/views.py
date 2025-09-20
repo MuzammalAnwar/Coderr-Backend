@@ -15,10 +15,16 @@ from decimal import Decimal, InvalidOperation
 
 
 class OfferDetailView(RetrieveUpdateDestroyAPIView):
+    """
+    retrieve/update/delete a single offer with owner-only writes and annotated mins
+    """
     permission_classes = [IsAuthenticated,
                           IsBusinessForWrite, IsOfferOwnerOrReadOnly]
 
     def get_queryset(self):
+        """
+        joins user, prefetches details, annotates min_price/min_delivery_time
+        """
         return (
             Offer.objects
             .select_related("business_user")
@@ -30,16 +36,21 @@ class OfferDetailView(RetrieveUpdateDestroyAPIView):
         )
 
     def get_serializer_class(self):
+        """
+        uses read serializer for GET, write serializer otherwise
+        """
         return OfferReadSerializer if self.request.method == "GET" else OfferSerializer
 
     def get_serializer_context(self):
+        """injects request into serializer context"""
         ctx = super().get_serializer_context()
         ctx["request"] = self.request
         return ctx
 
-    """Validate with write serializer, then return full details JSON."""
-
     def update(self, request, *args, **kwargs):
+        """
+        validates with write serializer, saves, then returns full details via read-with-details serializer
+        """
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
 
@@ -56,6 +67,9 @@ class OfferDetailView(RetrieveUpdateDestroyAPIView):
 
 
 class OfferListCreateView(ListCreateAPIView):
+    """
+    list and create offers with optional search/filter/order and pagination
+    """
     permission_classes = [IsAuthenticatedOrReadOnly, IsBusinessForWrite]
     pagination_class = DefaultPageNumberPagination
 
@@ -65,6 +79,9 @@ class OfferListCreateView(ListCreateAPIView):
     ordering = ['-updated_at']
 
     def get_queryset(self):
+        """
+        annotates min stats; supports filters: creator_id, min_price, max_delivery_time
+        """
         qs = (
             Offer.objects
             .select_related('business_user')
@@ -98,6 +115,9 @@ class OfferListCreateView(ListCreateAPIView):
         return qs
 
     def _parse_non_negative_int(self, raw, field_name):
+        """
+        validates integer query params
+        """
         try:
             value = int(raw)
         except (TypeError, ValueError):
@@ -107,6 +127,9 @@ class OfferListCreateView(ListCreateAPIView):
         return value
 
     def _parse_non_negative_decimal(self, raw, field_name):
+        """
+        validates non-negative decimal query params
+        """
         try:
             value = Decimal(str(raw))
         except (InvalidOperation, TypeError, ValueError):
@@ -117,6 +140,9 @@ class OfferListCreateView(ListCreateAPIView):
 
 
 class OfferRetrieveView(RetrieveAPIView):
+    """
+    retrieve a single offer list item with annotated min stats
+    """
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = OfferListItemSerializer
 
@@ -133,6 +159,9 @@ class OfferRetrieveView(RetrieveAPIView):
 
 
 class OfferDetailRetrieveView(RetrieveAPIView):
+    """
+    retrieve a single offer detail by primary key
+    """
     queryset = OfferDetail.objects.all()
     serializer_class = OfferDetailSerializer
     lookup_field = "pk"

@@ -6,6 +6,9 @@ from rest_framework.reverse import reverse as drf_reverse
 
 
 class OfferDetailSerializer(serializers.ModelSerializer):
+    """
+    serializes a single offer detail with validated price and cleaned list of string
+    """
     price = serializers.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -25,6 +28,9 @@ class OfferDetailSerializer(serializers.ModelSerializer):
         ]
 
     def validate_features(self, value):
+        """
+        ensures features is a list of non-empty trimmed strings, returns [] if null
+        """
         if value is None:
             return []
         if not isinstance(value, list):
@@ -41,6 +47,9 @@ class OfferDetailSerializer(serializers.ModelSerializer):
 
 
 class OfferListItemSerializer(serializers.ModelSerializer):
+    """
+    compact list serializer exposing user id, basic offer fields, min stats, and user details
+    """
     user = serializers.IntegerField(source="business_user_id", read_only=True)
 
     details = serializers.SerializerMethodField()
@@ -73,6 +82,9 @@ class OfferListItemSerializer(serializers.ModelSerializer):
         )
 
     def get_details(self, obj):
+        """
+        returns detail links as [{id, url}] using route name "offerdetail-detail"
+        """
         request = self.context.get('request')
         items = []
         for d in getattr(obj, 'details_all', None) or obj.details.all():
@@ -82,6 +94,9 @@ class OfferListItemSerializer(serializers.ModelSerializer):
         return items
 
     def get_user_details(self, obj):
+        """
+        returns author’s first name, last name, and username
+        """
         u = obj.business_user
         return {
             "first_name": getattr(u, "first_name", "") or "",
@@ -105,6 +120,9 @@ class OfferSerializer(serializers.ModelSerializer):
         read_only_fields = ("created_at", "updated_at")
 
     def validate_details(self, value):
+        """
+        on create, requires exactly one of each: basic, standard, premium
+        """
         if not getattr(self, "partial", False) and self.instance is None:
             required = {"basic", "standard", "premium"}
             got = {d.get("offer_type") for d in value}
@@ -115,6 +133,9 @@ class OfferSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        """
+        only authenticated business users can create; creates offer and bulk-creates details
+        """
         details_data = validated_data.pop("details", [])
         user = getattr(self.context.get("request"), "user", None)
         if not user or not user.is_authenticated:
@@ -129,6 +150,9 @@ class OfferSerializer(serializers.ModelSerializer):
         return offer
 
     def update(self, instance, validated_data):
+        """
+        updates offer fields; for each incoming detail finds by id or offer_type and updates allowed fields
+        """
         for f in ("title", "image", "description"):
             if f in validated_data:
                 setattr(instance, f, validated_data[f])
@@ -176,6 +200,9 @@ class OfferReadSerializer(serializers.ModelSerializer):
         )
 
     def get_details(self, obj):
+        """
+        uses prefetched details when available and builds [{id, url}] with drf_reverse
+        """
         request = self.context.get("request")
         rel = getattr(obj, "_prefetched_objects_cache", {}
                       ).get("details", obj.details.all())

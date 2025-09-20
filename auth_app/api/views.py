@@ -8,9 +8,16 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 
 class RegistrationView(APIView):
+    """
+    API endpoint for user registration.
+    """
     permission_classes = [AllowAny]
 
+
     def post(self, request):
+        """
+        handles incoming registration requests, validates allowed fields, saves a new user, creates a token, and returns user info with token.
+        """
         allowed_fields = {
             'username',
             'email',
@@ -40,10 +47,14 @@ class RegistrationView(APIView):
 
 
 class LoginView(ObtainAuthToken):
+    """
+    API endpoint for user login using token authentication.
+    """
     permission_classes = [AllowAny]
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
+        """validates login credentials, retrieves or creates a token, and returns user info with token."""
         serializer = self.serializer_class(
             data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
