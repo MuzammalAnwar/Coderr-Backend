@@ -77,6 +77,16 @@ class OfferListCreateView(ListCreateAPIView):
     search_fields = ['title', 'description']
     ordering_fields = ['updated_at', 'min_price']
     ordering = ['-updated_at']
+    
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return OfferSerializer
+        return OfferListItemSerializer
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx["request"] = self.request
+        return ctx
 
     def get_queryset(self):
         """
