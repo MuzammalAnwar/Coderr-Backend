@@ -43,6 +43,13 @@ class Order(models.Model):
         max_length=20, choices=OfferType.choices, default=OfferType.BASIC
     )
 
+    offer_detail = models.ForeignKey(
+        'offers_app.OfferDetail',
+        on_delete=models.PROTECT,
+        related_name='orders',
+        default=1
+    )
+
     status = models.CharField(
         max_length=20, choices=Status.choices, default=Status.IN_PROGRESS
     )
@@ -55,6 +62,7 @@ class Order(models.Model):
             models.Index(fields=['status']),
             models.Index(fields=['offer_type']),
             models.Index(fields=['created_at']),
+            models.Index(fields=['offer_detail']),
         ]
 
     def clean(self):

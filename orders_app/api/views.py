@@ -29,7 +29,7 @@ class OrdersListCreateView(ListCreateAPIView):
         ).order_by("-updated_at")
 
     def get_serializer_class(self):
-        return OrderCreateSerializer if self.request.method == "POST" else OrderSerializer
+        return OrderCreateSerializer if self.request.method == 'POST' else OrderSerializer
 
     def create(self, request, *args, **kwargs):
         ser_in = OrderCreateSerializer(
@@ -48,6 +48,8 @@ class OrderDetailView(RetrieveUpdateDestroyAPIView):
     """
     queryset = Order.objects.all()
     http_method_names = ['patch', 'delete']
+    lookup_field = 'offer_detail_id'
+    lookup_url_kwarg = 'pk' 
 
     def get_permissions(self):
         if self.request.method == 'PATCH':

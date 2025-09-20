@@ -10,7 +10,7 @@ class Offer(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="offers",
-        limit_choices_to={"type": "business"},  # admin/forms convenience
+        limit_choices_to={"type": "business"},
     )
     title = models.CharField(max_length=255)
     image = models.CharField(max_length=255, null=True, blank=True)
@@ -40,14 +40,12 @@ class OfferDetail(models.Model):
     revisions = models.PositiveIntegerField(default=0)
     delivery_time_in_days = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    # ["Logo", "Visitenkarte"]
     features = models.JSONField(default=list, blank=True)
     offer_type = models.CharField(
         max_length=20, choices=OfferType.choices
     )
 
     class Meta:
-        # Don’t allow duplicate types for the same offer
         unique_together = ("offer", "offer_type")
         indexes = [
             models.Index(fields=["offer_type"]),
