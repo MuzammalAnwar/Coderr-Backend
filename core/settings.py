@@ -37,17 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'core',
     'rest_framework',
     'rest_framework.authtoken',
     'auth_app',
-    'offers_app', 
-    'orders_app', 
-    'profile_app', 
+    'offers_app',
+    'orders_app',
+    'profile_app',
     'reviews_app'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -140,3 +142,14 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "auth_app.User"
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PATCH",
+    "PUT",
+    "DELETE",
+    "OPTIONS",
+]
