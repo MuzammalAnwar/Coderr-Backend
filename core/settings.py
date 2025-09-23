@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     'corsheaders',
     'core',
     'rest_framework',
@@ -139,6 +141,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
     ],
     "COERCE_DECIMAL_TO_STRING": False,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 AUTH_USER_MODEL = "auth_app.User"
