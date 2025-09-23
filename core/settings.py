@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-y_p=gk10nd9b)pjl-1(4=8k02e5k&thx-lq55@zxg#b39ls2#y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "35.195.216.126",          # server IP (for testing only)
+    "coderr-api.muzammal-anwar.at",   # backend
+    "coderr.muzammal-anwar.at",       # frontend (in case it ever talks directly to Django)
+    "localhost",
+    "127.0.0.1"
+]
 
 
 # Application definition
