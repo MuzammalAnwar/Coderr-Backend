@@ -25,13 +25,7 @@ This repository contains the backend implementation of the project **Coderr**, b
 - **Order Management (Customer Users)**
   - Place orders directly on published offers  
   - Track order status and progress  
-  - Manage their own order history  
-
-- **Technical Foundation**
-  - RESTful API built with **Django REST Framework**  
-  - **Angular frontend** fully integrated with the backend API  
-  - Deployed on **Google Cloud VM** with Gunicorn, Supervisor, and Nginx  
-  - Encrypted communication via **Let’s Encrypt SSL certificates**  
+  - Manage their own order history
 
 ## Deployment
 
