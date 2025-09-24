@@ -14,8 +14,12 @@ Supervisor – process manager to keep Gunicorn running
 
 Certbot (Let’s Encrypt) – automatic HTTPS certificates
 
-The API is accessible at:
-👉 https://coderr-api.muzammal-anwar.at
+The API documentation is accessible
+👉 [here](https://coderr-api.muzammal-anwar.at/api/docs/)
+
+The API schema can be downloaded
+👉 [here](https://coderr-api.muzammal-anwar.at/api/schema/)
+
 ---
 
 ## 🛠️ Tech Stack
