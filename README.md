@@ -2,6 +2,20 @@
 
 This repository contains the backend implementation of the project **Coderr**, built with **Django** and **Django REST Framework (DRF)**.
 
+## Deployment
+
+The backend is deployed on a Google Cloud VM using the following stack:
+
+Gunicorn – WSGI server for running Django
+
+Nginx – reverse proxy handling client requests and SSL termination
+
+Supervisor – process manager to keep Gunicorn running
+
+Certbot (Let’s Encrypt) – automatic HTTPS certificates
+
+The API is accessible at:
+👉 https://coderr-api.muzammal-anwar.at
 ---
 
 ## 🛠️ Tech Stack
